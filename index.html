@@ -9,23 +9,28 @@
   <style>
     :root{
       --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#6ee7b7; --glass: rgba(255,255,255,0.04);
-      --maxw:1100px; --radius:14px; --pad:26px; font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --maxw:1100px; --radius:14px; --pad:26px; --text:#e6eef6; --soft:#dbe9f6; font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
+    [data-theme='light']{
+      --bg: #f7f8fb; --card:#ffffff; --muted:#586170; --accent:#0b6b4a; --glass: rgba(2,6,23,0.03); --text:#071022; --soft:#23303a;
+    }
+
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;background:linear-gradient(180deg,#071022 0%, #071827 60%);color:#e6eef6;line-height:1.5;-webkit-font-smoothing:antialiased;padding:40px 20px}
+    body{margin:0;background:linear-gradient(180deg,var(--bg) 0%, #e8eef6 60%);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;padding:40px 20px}
     .wrap{max-width:var(--maxw);margin:0 auto}
 
     header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}
     .brand{display:flex;align-items:center;gap:14px}
-    .avatar{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#60a5fa);display:flex;align-items:center;justify-content:center;font-weight:700;color:#02111a}
+    .avatar{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#60a5fa);display:flex;align-items:center;justify-content:center;font-weight:700;color:#02111a;overflow:hidden}
     h1{font-size:22px;margin:0}
     .tag{color:var(--muted);font-size:13px}
 
     .grid{display:grid;grid-template-columns:1fr 360px;gap:28px}
     @media (max-width:920px){.grid{grid-template-columns:1fr}}
 
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:var(--pad);box-shadow:0 6px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:var(--pad);box-shadow:0 6px 30px rgba(2,6,23,0.06);border:1px solid rgba(255,255,255,0.03)}
+    [data-theme='light'] .card{box-shadow:0 6px 18px rgba(15,23,36,0.06);border:1px solid rgba(2,6,23,0.04)}
 
     .hero-meta{display:flex;align-items:center;gap:14px;margin-top:8px}
     .pill{background:var(--glass);padding:8px 12px;border-radius:999px;color:var(--accent);font-weight:600;font-size:13px}
@@ -37,14 +42,15 @@
     /* Experience / Projects list */
     .list{display:flex;flex-direction:column;gap:12px}
     .item{padding:14px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
+    [data-theme='light'] .item{background:transparent}
     .item h3{margin:0;font-size:15px}
     .meta{color:var(--muted);font-size:13px;margin-top:6px}
-    .desc{margin-top:8px;color:#dbe9f6;font-size:14px}
+    .desc{margin-top:8px;color:var(--soft);font-size:14px}
 
     /* Right column */
     .contact a{display:inline-block;margin-right:10px;color:var(--accent);text-decoration:none}
     .skills{display:flex;flex-wrap:wrap;gap:8px}
-    .skill{background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:8px;font-size:13px;color:#e6f7ee}
+    .skill{background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:8px;font-size:13px;color:var(--text)}
 
     /* Projects grid */
     .projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -55,18 +61,27 @@
     /* Buttons */
     .btn{display:inline-block;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
     .btn-primary{background:linear-gradient(90deg,var(--accent),#60a5fa);color:#02111a}
-    .btn-outline{border:1px solid rgba(255,255,255,0.06);color:var(--accent);background:transparent}
+    .btn-outline{border:1px solid rgba(0,0,0,0.06);color:var(--accent);background:transparent}
+    [data-theme='light'] .btn-outline{border:1px solid rgba(2,6,23,0.06)}
 
     /* subtle divider */
-    .hr{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.03),transparent);margin:18px 0;border-radius:2px}
+    .hr{height:1px;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.06),transparent);margin:18px 0;border-radius:2px}
 
     /* small print */
     .small{font-size:13px;color:var(--muted)}
 
+    /* theme toggle */
+    .theme-toggle{border-radius:10px;padding:8px 10px;border:1px solid rgba(255,255,255,0.04);background:transparent;cursor:pointer}
+    [data-theme='light'] .theme-toggle{border:1px solid rgba(2,6,23,0.06)}
+
+    /* responsive image styles */
+    .profile-lg{width:160px;border-radius:14px;object-fit:cover}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="wrap" id="page-root">
     <header>
       <div class="brand">
         <div class="avatar">
@@ -78,6 +93,7 @@
         </div>
       </div>
       <nav class="small">
+        <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">Toggle theme</button>
         <a class="btn btn-outline" href="#projects">Projects</a>
         <a class="btn btn-outline" href="#experience">Experience</a>
         <a class="btn btn-primary" href="/resume.pdf" download>Download Resume</a>
@@ -108,7 +124,7 @@
 
           <div class="hr"></div>
 
-          <h2>Selected Projects</h2>
+          <h2 id="projects">Selected Projects</h2>
           <div class="projects-grid">
             <div class="item">
               <h3>Twitter Image & Text Multimodal Analysis</h3>
@@ -216,5 +232,51 @@
       <div class="small">© Sayak Rana • Built with care • Available on GitHub: <a href="https://github.com/Sayak-Rana" style="color:var(--accent)">Sayak-Rana</a></div>
     </footer>
   </div>
+
+  <script>
+    // Theme management
+    const root = document.documentElement;
+    const pageRoot = document.getElementById('page-root');
+    const themeBtn = document.getElementById('themeBtn');
+
+    function applyTheme(theme){
+      if(theme === 'light'){
+        document.documentElement.setAttribute('data-theme','light');
+        localStorage.setItem('profile-theme','light');
+        themeBtn.textContent = '🌙 Dark';
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('profile-theme','dark');
+        themeBtn.textContent = '☀️ Light';
+      }
+    }
+
+    // initialize
+    (function(){
+      const saved = localStorage.getItem('profile-theme');
+      if(saved === 'light') applyTheme('light');
+      else applyTheme('dark');
+    })();
+
+    themeBtn.addEventListener('click', ()=>{
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      applyTheme(isLight ? 'dark' : 'light');
+    });
+
+    // Avatar image loader: if /profile.jpg exists, replace the SR placeholder
+    (function(){
+      const avatar = document.getElementById('avatar-placeholder');
+      const img = new Image();
+      img.src = 'profile.jpg';
+      img.onload = ()=>{
+        avatar.innerHTML = '';
+        img.alt = 'Sayak Rana';
+        avatar.appendChild(img);
+      };
+      img.onerror = ()=>{
+        // leave initials
+      };
+    })();
+  </script>
 </body>
 </html>
